@@ -1,5 +1,6 @@
 package com.example.ui_prototype
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -9,6 +10,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.ui_prototype.databinding.ActivityMainBinding
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.ui.NavigationUI
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +42,22 @@ class MainActivity : AppCompatActivity() {
 
         // Setup BottomNavigationView with navController
         binding.bottomNavigationView.setupWithNavController(navController)
-
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_logout -> {
+                    FirebaseAuth.getInstance().signOut() // Sign out from Firebase
+                    val signInIntent = Intent(this, SignInActivity::class.java)
+                    signInIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(signInIntent)
+                    finish() // Close the MainActivity
+                    true
+                }
+                else -> {
+                    // Let the NavController handle the navigation for other items
+                    NavigationUI.onNavDestinationSelected(item, navController)
+                }
+            }
+        }
         // Setup the ActionBar with navController and appBarConfiguration
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
