@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72779979149",
+    "project_id": "mobileprojectsnapmap",
+    "storage_bucket": "mobileprojectsnapmap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72779979149:android:2e567ae846b3170965c5c4",
+        "android_client_info": {
+          "package_name": "com.example.ui_prototype"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaJp5jX7ftvD1rQtXochsFegXvStcKovQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
