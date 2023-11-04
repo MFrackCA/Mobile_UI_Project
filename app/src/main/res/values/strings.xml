@@ -3,4 +3,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="placeholder_id">\@placeholder</string>
+    <string name="edit_label">Edit profile</string>
+    <string name="image_description">Profile picture</string>
+    <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Curabitur eu ipsum ipsum.
+    </string>
+
 </resources>
