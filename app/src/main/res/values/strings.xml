@@ -6,7 +6,16 @@
     <string name="placeholder">Placeholder</string>
     <string name="placeholder_id">\@placeholder</string>
     <string name="edit_label">Edit profile</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="re_enter_password_hint">Re-enter password</string>
+    <string name="sign_up_title">Create your account.</string>
+    <string name="login_title">Sign in to GeoPic.</string>
+    <string name="sign_in_hint_alt">Sign In</string>
+    <string name="sign_in_hint">Already have an account? <font color="#42A5F5">&#160;Sign In</font></string>
+    <string name="sign_up_hint_alt">Don\'t have an account? <font color="#42A5F5">&#160;Sign Up</font></string>
     <string name="image_description">Profile picture</string>
+    <string name="sign_up_hint">Sign Up</string>
     <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Curabitur eu ipsum ipsum.
     </string>
