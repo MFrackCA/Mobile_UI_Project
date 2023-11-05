@@ -45,7 +45,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/yourImageView"
+                        android:id="@+id/profile_banner_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:background="@color/cardview_dark_background"

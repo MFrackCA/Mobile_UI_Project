@@ -24,6 +24,26 @@
         android:id="@+id/profile"
         android:name="com.example.ui_prototype.Profile"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/action_Profile_to_EditProfile"
+            app:destination="@id/edit_profile"
+
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_profile"
+        android:name="com.example.ui_prototype.EditProfile"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile">
+
+        <action
+            android:id="@+id/action_EditProfile_to_Profile"
+            app:destination="@id/profile" />
+    </fragment>
+
 
 </navigation>
