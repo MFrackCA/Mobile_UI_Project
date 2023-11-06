@@ -19,5 +19,6 @@
     <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Curabitur eu ipsum ipsum.
     </string>
+    <string name="image_preview">preview of the captured image</string>
 
 </resources>
