@@ -11,8 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.ui_prototype"
-        minSdk = 34
-        targetSdk = 34
+        minSdk = 33
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -51,9 +51,19 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 }
 
 dependencies {
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx") //
+    implementation("com.google.firebase:firebase-firestore-ktx") // for storing user, image, video metadata
+    implementation("com.google.firebase:firebase-storage-ktx") // for storing image and videos
+    implementation("com.google.firebase:firebase-auth-ktx") // for user authentication
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.core:core-ktx:1.9.0")
@@ -79,4 +89,19 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+}
+
+secrets {
+    // Optionally specify a different file name containing your secrets.
+    // The plugin defaults to "local.properties"
+    propertiesFileName = "secrets.properties"
+
+    // A properties file containing default secret values. This file can be
+    // checked in version control.
+    defaultPropertiesFileName = "local.defaults.properties"
+
+    // Configure which keys should be ignored by the plugin by providing regular expressions.
+    // "sdk.dir" is ignored by default.
+    ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
+    ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
 }
