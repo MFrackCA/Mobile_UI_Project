@@ -1,14 +1,22 @@
 package com.example.ui_prototype
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class Home : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: VideoAdapter
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -16,31 +24,33 @@ class Home : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        // Initialize RecyclerView
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-        val layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = layoutManager
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Create a list of video items (you can replace this with your actual data)
-        val videoItems: List<VideoFeed> = createVideoItems()
-
-        // Create an adapter and set it to the RecyclerView
-        val adapter = VideoAdapter(videoItems)
+        adapter = VideoAdapter(emptyList())
         recyclerView.adapter = adapter
+
+        loadMediaItems()
 
         return view
     }
 
-    private fun createVideoItems(): List<VideoFeed> {
-        // Create a list of VideoItem objects with data for each cell
-        // You can replace this with your actual data retrieval logic
-        val videoItems = mutableListOf<VideoFeed>()
-
-        // Add video items to the list
-        videoItems.add(VideoFeed("Video 1", R.drawable.default_profile_picture, "Video description 1"))
-        videoItems.add(VideoFeed("Video 2", R.drawable.default_profile_picture, "Video description 2"))
-        // Add more video items as needed
-
-        return videoItems
+    private fun loadMediaItems() {
+        db.collection("usermedia")
+            .get()
+            .addOnSuccessListener { documents ->
+                val mediaItems = documents.mapNotNull { document ->
+                    val title = document.getString("mediaName") ?: "Unknown"
+                    val mediaUri = document.getString("mediaUrl") ?: return@mapNotNull null
+                    val mediaType = document.getString("mediaType") ?: return@mapNotNull null
+                    val profileImageResId = R.drawable.default_profile_picture
+                    val description = "Some description"
+                    MediaObj(title, profileImageResId, description, mediaUri, mediaType)
+                }
+                adapter.updateMediaItems(mediaItems)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting media documents: ", exception)
+            }
     }
 }
