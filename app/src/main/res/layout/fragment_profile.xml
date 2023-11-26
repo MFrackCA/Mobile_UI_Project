@@ -45,7 +45,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/yourImageView"
+                        android:id="@+id/profile_banner_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:background="@color/cardview_dark_background"
@@ -54,7 +54,8 @@
                         android:src="@drawable/ic_banner_foreground"
                         app:layout_collapseMode="parallax" />
 
-                    <include layout="@layout/profile_template" />
+                    <include android:id="@+id/profile_template"
+                        layout="@layout/profile_template" />
 
 
                 </LinearLayout>
