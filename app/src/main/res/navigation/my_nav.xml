@@ -14,7 +14,27 @@
         android:id="@+id/mapsFragment"
         android:name="com.example.ui_prototype.MapsFragment"
         android:label="Map View"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps">
+
+        <action
+            android:id="@+id/action_MapsFragment_to_LocationFeed"
+            app:destination="@+id/location_feed"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/location_feed"
+        android:name="com.example.ui_prototype.LocationFeed"
+        android:label="Location Feed"
+        tools:layout="@layout/fragment_location_feed"
+
+        >
+        <action
+            android:id="@+id/action_LocationFeed_to_MapsFragment"
+            app:destination="@+id/mapsFragment" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/camera"
         android:name="com.example.ui_prototype.Camera"

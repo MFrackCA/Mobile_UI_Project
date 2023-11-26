@@ -24,6 +24,9 @@
     <string name="save_profile_hint">Save Profile</string>
     <string name="profile_label_string">Profile</string>
     <string name="contact_label_string">Contact</string>
+    <string name="location_placeholder">Location Name</string>
+    <string name="image_hint">Image</string>
+    <string name="location_feed_hint">Images and videos happening in the area.</string>
     <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Curabitur eu ipsum ipsum.
     </string>
