@@ -66,7 +66,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        >
 
         <TextView
             android:id="@+id/image_location"
@@ -95,7 +97,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"
+
+        />
 
 </LinearLayout>
 
