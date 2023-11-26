@@ -16,6 +16,17 @@
     <string name="sign_up_hint_alt">Don\'t have an account? <font color="#42A5F5">&#160;Sign Up</font></string>
     <string name="image_description">Profile picture</string>
     <string name="sign_up_hint">Sign Up</string>
+    <string name="username_hint">Username</string>
+    <string name="bio_hint">Bio</string>
+    <string name="first_name_hint">First Name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="phone_hint">Phone Number</string>
+    <string name="save_profile_hint">Save Profile</string>
+    <string name="profile_label_string">Profile</string>
+    <string name="contact_label_string">Contact</string>
+    <string name="location_placeholder">Location Name</string>
+    <string name="image_hint">Image</string>
+    <string name="location_feed_hint">Images and videos happening in the area.</string>
     <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Curabitur eu ipsum ipsum.
     </string>

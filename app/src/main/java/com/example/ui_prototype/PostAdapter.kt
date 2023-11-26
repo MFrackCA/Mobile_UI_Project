@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ProfileAdapter(private val dataSet: Array<String>) : RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
+class PostAdapter(private val dataSet: Array<String>) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
 
         val textView: TextView
