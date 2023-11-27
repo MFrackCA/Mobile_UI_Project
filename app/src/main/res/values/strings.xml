@@ -26,7 +26,7 @@
     <string name="contact_label_string">Contact</string>
     <string name="location_placeholder">Location Name</string>
     <string name="image_hint">Image</string>
-    <string name="location_feed_hint">Images and videos happening in the area.</string>
+    <string name="location_feed_hint">See whats happening in the area.</string>
     <string name="placeholder_description">Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Curabitur eu ipsum ipsum.
     </string>
