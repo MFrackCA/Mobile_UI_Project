@@ -37,6 +37,7 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
 
                     binding.videoView.setOnPreparedListener { mp ->
                         mp.start()
+
                     }
                     // Show replay button when video ends
                     binding.videoView.setOnCompletionListener {
@@ -48,10 +49,14 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
                         true // Return true if the error has been handled
                     }
                 }
+
                 "image" -> {
                     binding.imageView.visibility = View.VISIBLE
                     binding.videoView.visibility = View.GONE
-                    Glide.with(binding.imageView.context).load(mediaItem.mediaUri).into(binding.imageView)
+                    Glide.with(binding.imageView.context).load(mediaItem.mediaUri)
+                        .placeholder(R.drawable.baseline_image_24).into(binding.imageView)
+
+
                 }
             }
         }
