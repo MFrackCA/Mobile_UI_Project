@@ -17,6 +17,7 @@ class Home : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VideoAdapter
     private val db = Firebase.firestore
+    private var cachedMediaItems: List<MediaObj>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +31,13 @@ class Home : Fragment() {
         adapter = VideoAdapter(emptyList())
         recyclerView.adapter = adapter
 
-        loadMediaItems()
+        // Load media items from cache or fetch from Firestore if not cached
+        if (cachedMediaItems == null) {
+            loadMediaItems()
+        } else {
+            // Load from cache
+            adapter.updateMediaItems(cachedMediaItems!!)
+        }
 
         return view
     }
