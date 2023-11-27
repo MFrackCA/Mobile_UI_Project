@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,5 +35,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val toronto = LatLng(43.6532, -79.3832)
         googleMap.addMarker(MarkerOptions().position(toronto).title("Marker in Toronto"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(toronto))
+
+        googleMap.setOnMarkerClickListener {
+            findNavController().navigate(R.id.action_MapsFragment_to_LocationFeed)
+            false
+        }
+
     }
 }
