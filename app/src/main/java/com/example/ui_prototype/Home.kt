@@ -31,6 +31,7 @@ class Home : Fragment() {
         adapter = VideoAdapter(emptyList())
         recyclerView.adapter = adapter
 
+        // TODO: see if this works lol
         // Load media items from cache or fetch from Firestore if not cached
         if (cachedMediaItems == null) {
             loadMediaItems()
