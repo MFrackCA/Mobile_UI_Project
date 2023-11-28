@@ -31,15 +31,48 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this::onMapReady)
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        val toronto = LatLng(43.6532, -79.3832)
-        googleMap.addMarker(MarkerOptions().position(toronto).title("Marker in Toronto"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(toronto))
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        val toronto = LatLng(43.6532, -79.3832)
+//        googleMap.addMarker(MarkerOptions().position(toronto).title("Marker in Toronto"))
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(toronto))
+//
+//        googleMap.setOnMarkerClickListener {
+//            findNavController().navigate(R.id.action_MapsFragment_to_LocationFeed)
+//            false
+//        }
+//    }
 
-        googleMap.setOnMarkerClickListener {
-            findNavController().navigate(R.id.action_MapsFragment_to_LocationFeed)
-            false
+    override fun onMapReady(googleMap: GoogleMap) {
+        // Dummy MediaObj
+        val dummyMediaObj = object {
+            val title = "Dog Video"
+            val profileImageResId = R.drawable.default_profile_picture // Your default image resource
+            val description = "Sample video of a dog"
+            val mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.dog // Your raw resource
+            val mediaType = "video"
+            val latitude = 43.6532 // Dummy latitude, e.g., Toronto
+            val longitude = -79.3832 // Dummy longitude
         }
 
+        // Add marker for the dummy object
+        val markerPosition = LatLng(dummyMediaObj.latitude, dummyMediaObj.longitude)
+        googleMap.addMarker(MarkerOptions().position(markerPosition).title(dummyMediaObj.title))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, 10f))
+
+        googleMap.setOnMarkerClickListener { marker ->
+            if (marker.position == markerPosition) {
+                playVideo(dummyMediaObj.mediaUri)
+            }
+            false
+        }
+    }
+
+    private fun playVideo(mediaUri: String) {
+        val dialogFragment = VideoPlaybackDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString("mediaUri", mediaUri)
+            }
+        }
+        dialogFragment.show(parentFragmentManager, "VideoPlayback")
     }
 }

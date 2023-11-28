@@ -64,6 +64,11 @@
             android:id="@+id/action_EditProfile_to_Profile"
             app:destination="@id/profile" />
     </fragment>
+    <fragment
+        android:id="@+id/video_playback"
+        android:name="com.example.ui_prototype.video_playback"
+        android:label="fragment_video_playback"
+        tools:layout="@layout/fragment_video_playback" />
 
 
 </navigation>
