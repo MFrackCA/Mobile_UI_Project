@@ -44,7 +44,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="400dp"
+        android:background="@color/black"
+        >
 
         <ImageView
             android:id="@+id/imageView"
@@ -57,7 +59,9 @@
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            />
 
         <!-- Replay Button added here -->
         <ImageView

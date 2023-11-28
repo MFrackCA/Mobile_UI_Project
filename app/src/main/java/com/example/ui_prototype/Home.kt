@@ -42,8 +42,29 @@ class Home : Fragment() {
         if (isDevelopmentMode) {
             // Load mock data
             val mockMediaItems = listOf(
-                MediaObj("Honeybee", R.drawable.honeybee, "Description for Honeybee", "android.resource://com.example.ui_prototype/drawable/honeybee", "image"),
-                MediaObj("Dog Video", R.drawable.default_profile_picture, "Description for Dog Video", "android.resource://com.example.ui_prototype/" + R.raw.dog, "video")
+                MediaObj(
+                    "Honeybee",
+                    R.drawable.honeybee,
+                    "Description for Honeybee",
+                    "android.resource://com.example.ui_prototype/drawable/honeybee",
+                    "image"
+                ),
+                MediaObj(
+                    "Dog Video",
+                    R.drawable.default_profile_picture,
+                    "Description for Dog Video",
+                    "android.resource://com.example.ui_prototype/" + R.raw.dog,
+                    "video"
+                ),
+                MediaObj(
+                    "Falls Video",
+                    R.drawable.default_profile_picture,
+                    "Description for Falls Video",
+                    "android.resource://com.example.ui_prototype/" + R.raw.falls,
+                    "video"
+                ),
+
+
                 // Add more mock items as needed
             )
             adapter.updateMediaItems(mockMediaItems)
