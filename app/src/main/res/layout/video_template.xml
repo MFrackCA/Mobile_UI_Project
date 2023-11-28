@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
-    android:paddingVertical="16dp"
-
+    android:paddingTop="18dp"
     >
 
     <RelativeLayout
@@ -45,23 +43,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@color/black"
-        >
+        android:background="@color/black">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
             android:layout_centerVertical="true"
-            />
+            android:visibility="gone" />
 
         <!-- Replay Button added here -->
         <ImageView
@@ -69,11 +65,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/baseline_replay_24"
-            android:visibility="gone"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackground" />
+            android:src="@drawable/baseline_replay_24"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <Space
@@ -84,8 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp"
-        >
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/video_location"
