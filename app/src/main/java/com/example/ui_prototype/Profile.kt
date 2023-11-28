@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.ui_prototype.databinding.FragmentProfileBinding
 
@@ -20,6 +22,9 @@ class Profile : Fragment() {
     // Firebase Instances
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var adapter: VideoAdapter
+    private lateinit var recyclerView: RecyclerView
+
 
     // Binding
     private lateinit var binding: FragmentProfileBinding
@@ -42,7 +47,40 @@ class Profile : Fragment() {
         // Get current user from FireAuth
         currentUser = auth.currentUser
 
+        recyclerView = view.findViewById(R.id.image_container)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter = VideoAdapter(emptyList())
+        recyclerView.adapter = adapter
+
         return view
+    }
+
+    private fun loadMediaItems() {
+        currentUser?.let { user ->
+            // Use the user's UID to reference the correct document in the 'users' collection
+            firestore.collection("users").document(user.uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+
+                        // Grab FireStore Fields
+                        val name = document.getString("firstname") ?: "GeoPic User"
+
+
+                        val mockMediaItems = listOf(
+                            MediaObj(
+                                name,
+                                R.drawable.honeybee,
+                                "Description for Honeybee",
+                                "android.resource://com.example.ui_prototype/drawable/honeybee",
+                                "image"
+                            ),
+
+                            )
+                        adapter.updateMediaItems(mockMediaItems)
+                    }
+                }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +108,7 @@ class Profile : Fragment() {
                     }
                 }
         }
-
+        loadMediaItems()
         binding.profileTemplate.editProfileButton.setOnClickListener {
 
             findNavController().navigate(R.id.action_Profile_to_EditProfile)
