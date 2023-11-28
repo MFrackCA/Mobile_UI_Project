@@ -32,6 +32,7 @@ class Home : Fragment() {
 
         loadMediaItems()
 
+
         return view
     }
 
