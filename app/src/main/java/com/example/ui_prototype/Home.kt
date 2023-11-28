@@ -18,6 +18,9 @@ class Home : Fragment() {
     private lateinit var adapter: VideoAdapter
     private val db = Firebase.firestore
 
+    // Flag to indicate whether the app is in development mode
+    private val isDevelopmentMode = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,26 +35,37 @@ class Home : Fragment() {
 
         loadMediaItems()
 
-
         return view
     }
 
     private fun loadMediaItems() {
-        db.collection("usermedia")
-            .get()
-            .addOnSuccessListener { documents ->
-                val mediaItems = documents.mapNotNull { document ->
-                    val title = document.getString("mediaName") ?: "Unknown"
-                    val mediaUri = document.getString("mediaUrl") ?: return@mapNotNull null
-                    val mediaType = document.getString("mediaType") ?: return@mapNotNull null
-                    val profileImageResId = R.drawable.default_profile_picture
-                    val description = "Some description"
-                    MediaObj(title, profileImageResId, description, mediaUri, mediaType)
+        if (isDevelopmentMode) {
+            // Load mock data
+            val mockMediaItems = listOf(
+                MediaObj("Honeybee", R.drawable.honeybee, "Description for Honeybee", "android.resource://com.example.ui_prototype/drawable/honeybee", "image"),
+                MediaObj("Dog Video", R.drawable.default_profile_picture, "Description for Dog Video", "android.resource://com.example.ui_prototype/" + R.raw.dog, "video")
+                // Add more mock items as needed
+            )
+            adapter.updateMediaItems(mockMediaItems)
+        } else {
+            // Production mode, load data from Firestore
+            db.collection("usermedia")
+                .limit(10) // Fetch a limited number of documents
+                .get()
+                .addOnSuccessListener { documents ->
+                    val mediaItems = documents.mapNotNull { document ->
+                        val title = document.getString("mediaName") ?: "Unknown"
+                        val mediaUri = document.getString("mediaUrl") ?: return@mapNotNull null
+                        val mediaType = document.getString("mediaType") ?: return@mapNotNull null
+                        val profileImageResId = R.drawable.default_profile_picture
+                        val description = "Some description"
+                        MediaObj(title, profileImageResId, description, mediaUri, mediaType)
+                    }
+                    adapter.updateMediaItems(mediaItems)
                 }
-                adapter.updateMediaItems(mediaItems)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting media documents: ", exception)
-            }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error getting media documents: ", exception)
+                }
+        }
     }
 }
