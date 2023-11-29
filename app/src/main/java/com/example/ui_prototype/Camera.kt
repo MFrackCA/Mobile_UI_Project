@@ -3,6 +3,7 @@ package com.example.ui_prototype
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -35,6 +36,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import com.bumptech.glide.Glide
 import com.example.ui_prototype.databinding.FragmentCameraBinding
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -44,10 +46,12 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
+import com.google.android.gms.location.LocationServices
 
 class Camera : Fragment() {
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var currentLocation: Location? = null
     private lateinit var viewBinding: FragmentCameraBinding
 
     private var imageCapture: ImageCapture? = null
@@ -114,6 +118,7 @@ class Camera : Fragment() {
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+        getCurrentLocation()
     }
 
     override fun onCreateView(
@@ -251,6 +256,10 @@ class Camera : Fragment() {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+            currentLocation?.let {
+                put(MediaStore.Images.Media.LATITUDE, it.latitude)
+                put(MediaStore.Images.Media.LONGITUDE, it.longitude)
+            }
         }
 
         // Create output options object which contains file + metadata
@@ -298,8 +307,11 @@ class Camera : Fragment() {
                                         "mediaUrl" to uri.toString(),
                                         "mediaName" to output.savedUri?.lastPathSegment,
                                         "mediaDate" to System.currentTimeMillis(),
-                                        "description" to description
+                                        "description" to description,
+                                        "latitude" to currentLocation?.latitude,
+                                        "longitude" to currentLocation?.longitude
                                     )
+                                    Log.d(TAG, "Uploading image data to Firestore: $userMedia")
                                     db.collection("usermedia")
                                         .add(userMedia)
                                         .addOnSuccessListener { documentReference ->
@@ -363,6 +375,10 @@ class Camera : Fragment() {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
             put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/CameraX-Video")
+            currentLocation?.let {
+                put(MediaStore.Video.Media.LATITUDE, it.latitude)
+                put(MediaStore.Video.Media.LONGITUDE, it.longitude)
+            }
         }
 
         val mediaStoreOutputOptions = MediaStoreOutputOptions
@@ -418,8 +434,11 @@ class Camera : Fragment() {
                                                 "mediaUrl" to uri.toString(),
                                                 "mediaName" to recordEvent.outputResults.outputUri.lastPathSegment,
                                                 "mediaDate" to System.currentTimeMillis(),
-                                                "description" to description
+                                                "description" to description,
+                                                "latitude" to currentLocation?.latitude,
+                                                "longitude" to currentLocation?.longitude
                                             )
+                                            Log.d(TAG, "Uploading image data to Firestore: $userMedia")
                                             db.collection("usermedia")
                                                 .add(userMedia)
                                                 .addOnSuccessListener { documentReference ->
@@ -468,6 +487,9 @@ class Camera : Fragment() {
     }
 
     private fun requestPermissions() {
+        val permissions = REQUIRED_PERMISSIONS.toMutableList()
+        permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
         activityResultLauncher.launch(REQUIRED_PERMISSIONS)
     }
 
@@ -488,8 +510,27 @@ class Camera : Fragment() {
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
                 android.Manifest.permission.CAMERA,
-                android.Manifest.permission.RECORD_AUDIO
+                android.Manifest.permission.RECORD_AUDIO,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
             ).toTypedArray()
+    }
+
+    private fun getCurrentLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        try {
+            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                    location?.let {
+                        currentLocation = it
+                        Log.d(TAG, "Location retrieved: Lat = ${it.latitude}, Lon = ${it.longitude}")
+                    } ?: Log.d(TAG, "Location is null")
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e(TAG, "Error getting location: ${e.message}")
+        }
     }
 
 }
