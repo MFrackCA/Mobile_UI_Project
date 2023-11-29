@@ -69,7 +69,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
-
     private fun playVideo(mediaUri: String) {
         val dialogFragment = VideoPlaybackDialogFragment().apply {
             arguments = Bundle().apply {

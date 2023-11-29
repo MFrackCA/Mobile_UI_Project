@@ -78,7 +78,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx") // for storing user, image, video metadata
     implementation("com.google.firebase:firebase-storage-ktx") // for storing image and videos
     implementation("com.google.firebase:firebase-auth-ktx") // for user authentication
-
+    implementation ("com.google.android.material:material:1.10.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

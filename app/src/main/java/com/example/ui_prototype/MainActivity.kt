@@ -1,6 +1,8 @@
 package com.example.ui_prototype
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -70,11 +72,24 @@ class MainActivity : AppCompatActivity() {
         // Setup BottomNavigationView with navController
         binding.bottomNavigationView.setupWithNavController(navController)
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
-
-            // Let the NavController handle the navigation for other items
             NavigationUI.onNavDestinationSelected(item, navController)
-
+            true
         }
+
+        // Customize BottomNavigationView colors
+        val states = arrayOf(
+            intArrayOf(-android.R.attr.state_checked), // Unchecked state
+            intArrayOf(android.R.attr.state_checked)    // Checked state
+        )
+        val colors = intArrayOf(
+            Color.WHITE,  // Color for unchecked state
+            Color.WHITE   // Color for checked state
+        )
+        val colorStateList = ColorStateList(states, colors)
+        binding.bottomNavigationView.itemIconTintList = colorStateList
+        binding.bottomNavigationView.itemTextColor = colorStateList
+
+
         // Setup the ActionBar with navController and appBarConfiguration
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
