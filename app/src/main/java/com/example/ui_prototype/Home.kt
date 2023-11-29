@@ -210,29 +210,72 @@ class Home : Fragment() {
             // Add more mock items as needed
             adapter.updateMediaItems(mockMediaItems)
         } else {
-            // Production mode, load data from Firestore
+            val mediaItems = mutableListOf<MediaObj>() // Create a list to collect media objects
+
             db.collection("usermedia")
-                .limit(10) // Fetch a limited number of documents
+                .limit(2) // Fetch a limited number of documents
                 .get()
                 .addOnSuccessListener { documents ->
-                    val mediaItems = documents.mapNotNull { document ->
-                        val title = document.getString("mediaName") ?: "Unknown"
-                        val mediaUri = document.getString("mediaUrl") ?: return@mapNotNull null
-                        val mediaType = document.getString("mediaType") ?: return@mapNotNull null
-                        val profileImageResId = R.drawable.default_profile_picture
-                        val description = "Some description"
-                        val long = document.getDouble("longitude") ?: 0.0 // Provide a default value for long
-                        val latitude = document.getDouble("latitude") ?: 0.0 // Provide a default value for latitude
-                        val username = document.getString("username") ?: "Unknown" // Provide a default value for username
-                        val locationName = document.getString("locationName") ?: "Unknown" // Provide a default value for locationName
+                    val expectedResponses = documents.size()
+                    var receivedResponses = 0
 
-                        MediaObj(title, profileImageResId, description, mediaUri, mediaType, long, latitude, username, locationName)
+                    // Check if there are no documents
+                    if (documents.isEmpty) {
+                        adapter.updateMediaItems(mediaItems) // Update the adapter with an empty list
+                        return@addOnSuccessListener
                     }
-                    adapter.updateMediaItems(mediaItems)
+
+                    for (document in documents) {
+                        val uid = document.getString("uid") ?: continue // Skip if UID is null
+
+                        // Fetch user info
+                        db.collection("users").document(uid).get()
+                            .addOnSuccessListener { userDocument ->
+                                receivedResponses++
+
+                                // Process the user document
+                                val username = userDocument.getString("username") ?: "Unknown"
+                                val profileImageResId = R.drawable.default_profile_picture // Use a default drawable resource
+
+                                // Extract the media details
+                                val title = document.getString("mediaName") ?: "Unknown"
+                                val mediaUri = document.getString("mediaUrl") ?: ""
+                                val mediaType = document.getString("mediaType") ?: ""
+                                val description = document.getString("description") ?: "No description available"
+                                val long = document.getDouble("longitude") ?: 0.0
+                                val latitude = document.getDouble("latitude") ?: 0.0
+                                val locationName = document.getString("locationName") ?: "Unknown location"
+
+                                // Create a media object and add it to the list
+                                mediaItems.add(MediaObj(
+                                    title,
+                                    profileImageResId,
+                                    description,
+                                    mediaUri,
+                                    mediaType,
+                                    long,
+                                    latitude,
+                                    username,
+                                    locationName
+                                ))
+
+                                // If all responses are received, update the adapter
+                                if (receivedResponses == expectedResponses) {
+                                    adapter.updateMediaItems(mediaItems) // Update the adapter
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e(TAG, "Error getting user data", e)
+                                receivedResponses++
+                                if (receivedResponses == expectedResponses) {
+                                    adapter.updateMediaItems(mediaItems) // Update the adapter
+                                }
+                            }
+                    }
                 }
                 .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting media documents: ", exception)
-                }
+                    Log.w(TAG, "Error getting media documents: ")
         }
+    }
     }
 }

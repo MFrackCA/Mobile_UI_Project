@@ -26,14 +26,25 @@ class VideoPlaybackDialogFragment : DialogFragment() {
         val videoUri = Uri.parse(videoUriString)
         val videoView = view.findViewById<VideoView>(R.id.videoView)
 
+        // Add MediaController for playback controls
+        val mediaController = android.widget.MediaController(context)
+        mediaController.setAnchorView(videoView)
+        videoView.setMediaController(mediaController)
+
         videoView.setVideoURI(videoUri)
-        videoView.setOnPreparedListener(MediaPlayer::start)
+        videoView.setOnPreparedListener { mediaPlayer ->
+            mediaPlayer.start()
+            mediaPlayer.isLooping = true // If you want the video to loop
+        }
         videoView.setOnCompletionListener { dismiss() } // Close the dialog when video finishes
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
+        // Set the dialog to full-screen width
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        // Apply the custom style for rounded corners
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_map_frame)
         return dialog
     }
 }
