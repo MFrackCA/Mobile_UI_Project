@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@android:color/transparent"
         android:backgroundTintMode="src_in"
         android:contentDescription="Photo and Video Capture Button"
         android:textColor="@color/design_default_color_on_primary"

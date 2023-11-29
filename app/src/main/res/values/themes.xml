@@ -9,12 +9,12 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textStyle">bold</item>
 
-        <item name="android:textColorSecondary">#443434</item>
+        <item name="android:textColorSecondary">#FFF88888</item>
     </style>
 
     <style name="Theme.Ui_prototype" parent="Base.Theme.Ui_prototype">
         <item name="android:navigationBarColor">@color/black</item>
-        <item name="android:statusBarColor">#42A5F5</item>
+        <item name="android:statusBarColor">@color/blue_main</item>
 
     </style>
 </resources>

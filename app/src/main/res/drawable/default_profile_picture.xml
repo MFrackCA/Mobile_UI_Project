@@ -8,7 +8,7 @@
     >
     <group>
         <path android:name="square"
-            android:fillColor="#515151"
+            android:fillColor="@color/off_white"
             android:pathData="M0,0 L24,0 L24,24 L0,24 z" />
         <path
             android:fillColor="@android:color/white"

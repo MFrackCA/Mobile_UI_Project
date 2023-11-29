@@ -48,7 +48,7 @@
                         android:id="@+id/profile_banner_image"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@color/cardview_dark_background"
+                        android:background="@color/off_white"
                         android:contentDescription="@string/image_description"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_banner_foreground"
