@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -37,6 +38,9 @@ import androidx.core.content.PermissionChecker
 import com.bumptech.glide.Glide
 import com.example.ui_prototype.databinding.FragmentCameraBinding
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -518,18 +522,31 @@ class Camera : Fragment() {
 
     private fun getCurrentLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        val locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations) {
+                    if (location != null) {
+                        currentLocation = location
+                        Log.d(TAG, "Updated Location: ${location.latitude}, ${location.longitude}")
+                    }
+                }
+            }
+        }
+
         try {
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    location?.let {
-                        currentLocation = it
-                        Log.d(TAG, "Location retrieved: Lat = ${it.latitude}, Lon = ${it.longitude}")
-                    } ?: Log.d(TAG, "Location is null")
-                }
+                fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e(TAG, "Error getting location: ${e.message}")
+            Log.e(TAG, "Error in requesting location updates: ${e.message}")
         }
     }
 
