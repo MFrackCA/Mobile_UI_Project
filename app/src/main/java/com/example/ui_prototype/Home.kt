@@ -1,5 +1,6 @@
 package com.example.ui_prototype
 
+import MediaObjDBHelper
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,8 @@ class Home : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VideoAdapter
     private val db = Firebase.firestore
+    private val dbHelper: MediaObjDBHelper by lazy { MediaObjDBHelper(requireContext()) }
+
 
     // Flag to indicate whether the app is in development mode
     private val isDevelopmentMode = true
@@ -33,6 +36,21 @@ class Home : Fragment() {
         adapter = VideoAdapter(emptyList())
         recyclerView.adapter = adapter
 
+        // Insert the first mock media object into the database
+        val firstMockMediaObj = MediaObj(
+            title = "Honeybee",
+            profileImageResId = R.drawable.honeybee,
+            description = "Description for Honeybee",
+            mediaUri = "android.resource://com.example.ui_prototype/drawable/honeybee", // Example image URI
+            mediaType = "image",
+            long = 0.0, // Example longitude
+            latitude = 0.0, // Example latitude
+            username = "example_user",
+            locationName = "Example Location"
+        )
+        dbHelper.insertMediaObj(firstMockMediaObj)
+
+        // Load media items from the database
         loadMediaItems()
 
         return view
@@ -43,30 +61,42 @@ class Home : Fragment() {
             // Load mock data
             val mockMediaItems = listOf(
                 MediaObj(
-                    "Honeybee",
-                    R.drawable.honeybee,
-                    "Description for Honeybee",
-                    "android.resource://com.example.ui_prototype/drawable/honeybee",
-                    "image"
+                    title = "Honeybee",
+                    profileImageResId = R.drawable.honeybee,
+                    description = "Description for Honeybee",
+                    mediaUri = "android.resource://com.example.ui_prototype/drawable/honeybee", // Example image URI
+                    mediaType = "image",
+                    long = 0.0, // Example longitude
+                    latitude = 0.0, // Example latitude
+                    username = "example_user",
+                    locationName = "Example Location"
                 ),
                 MediaObj(
-                    "Dog Video",
-                    R.drawable.default_profile_picture,
-                    "Description for Dog Video",
-                    "android.resource://com.example.ui_prototype/" + R.raw.dog,
-                    "video"
+                    title = "Dog Video",
+                    profileImageResId = R.drawable.default_profile_picture,
+                    description = "Description for Dog Video",
+                    mediaUri = "android.resource://com.example.ui_prototype/" + R.raw.dog, // Example video URI
+                    mediaType = "video",
+                    long = 0.0, // Example longitude
+                    latitude = 0.0, // Example latitude
+                    username = "example_user",
+                    locationName = "Example Location"
                 ),
                 MediaObj(
-                    "Falls Video",
-                    R.drawable.default_profile_picture,
-                    "Description for Falls Video",
-                    "android.resource://com.example.ui_prototype/" + R.raw.falls,
-                    "video"
-                ),
-
-
+                    title = "Falls Video",
+                    profileImageResId = R.drawable.default_profile_picture,
+                    description = "Description for Falls Video",
+                    mediaUri = "android.resource://com.example.ui_prototype/" + R.raw.falls, // Example video URI
+                    mediaType = "video",
+                    long = 0.0, // Example longitude
+                    latitude = 0.0, // Example latitude
+                    username = "example_user",
+                    locationName = "Example Location"
+                )
                 // Add more mock items as needed
             )
+
+            // Add more mock items as needed
             adapter.updateMediaItems(mockMediaItems)
         } else {
             // Production mode, load data from Firestore
@@ -80,7 +110,12 @@ class Home : Fragment() {
                         val mediaType = document.getString("mediaType") ?: return@mapNotNull null
                         val profileImageResId = R.drawable.default_profile_picture
                         val description = "Some description"
-                        MediaObj(title, profileImageResId, description, mediaUri, mediaType)
+                        val long = document.getDouble("longitude") ?: 0.0 // Provide a default value for long
+                        val latitude = document.getDouble("latitude") ?: 0.0 // Provide a default value for latitude
+                        val username = document.getString("username") ?: "Unknown" // Provide a default value for username
+                        val locationName = document.getString("locationName") ?: "Unknown" // Provide a default value for locationName
+
+                        MediaObj(title, profileImageResId, description, mediaUri, mediaType, long, latitude, username, locationName)
                     }
                     adapter.updateMediaItems(mediaItems)
                 }

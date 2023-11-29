@@ -69,13 +69,17 @@ class Profile : Fragment() {
 
                         val mockMediaItems = listOf(
                             MediaObj(
-                                name,
-                                R.drawable.honeybee,
-                                "Description for Honeybee",
-                                "android.resource://com.example.ui_prototype/drawable/honeybee",
-                                "image"
+                                title = "Honeybee",
+                                profileImageResId = R.drawable.honeybee,
+                                description = "Description for Honeybee",
+                                mediaUri = "android.resource://com.example.ui_prototype/drawable/honeybee",
+                                mediaType = "image",
+                                long = 0.0, // Provide a default value for longitude
+                                latitude = 0.0, // Provide a default value for latitude
+                                username = "default_user", // Provide a default value for username
+                                locationName = "default_location" // Provide a default value for locationName
                             ),
-
+                            // Add more mock items as needed
                             )
                         adapter.updateMediaItems(mockMediaItems)
                     }

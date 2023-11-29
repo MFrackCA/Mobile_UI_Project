@@ -24,7 +24,7 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
 
         fun bind(mediaItem: MediaObj) {
             binding.userName.text = mediaItem.title
-            binding.profileImage.setImageResource(mediaItem.profileImageResId)
+            mediaItem.profileImageResId?.let { binding.profileImage.setImageResource(it) }
             binding.videoDescription.text = mediaItem.description
 
             when (mediaItem.mediaType) {
