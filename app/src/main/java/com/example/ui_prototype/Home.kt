@@ -38,15 +38,15 @@ class Home : Fragment() {
 
         // Insert the first mock media object into the database
         val firstMockMediaObj = MediaObj(
-            title = "Honeybee",
+            title = "Video 1",
             profileImageResId = R.drawable.honeybee,
             description = "Description for Honeybee",
-            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v3, // Example image URI
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v1, // Example image URI
             mediaType = "image",
-            long = 0.0, // Example longitude
-            latitude = 0.0, // Example latitude
+            long = -74.0060, // Example longitude
+            latitude = 40.7120, // Example latitude
             username = "example_user",
-            locationName = "Example Location"
+            locationName = "New York"
         )
 
         val secondMockMediaObj = MediaObj(
@@ -56,27 +56,110 @@ class Home : Fragment() {
             mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v2, // Example image URI
             mediaType = "video",
             long = 18.2529, // Example longitude
-            latitude = 13.2048, // Example latitude
+            latitude = 13.2046, // Example latitude
             username = "idk",
             locationName = "Unknown Location"
         )
         val thirdMockMediaObj = MediaObj(
-            title = "Video 1",
+            title = "Video 3",
             profileImageResId = R.drawable.default_profile_picture,
             description = "Pretty cool video",
-            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v1, // Example image URI
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v3, // Example image URI
             mediaType = "video",
-            long = 138.2529, // Example longitude
+            long = 138.2528, // Example longitude
             latitude = 36.2048, // Example latitude
             username = "just_a_dude",
             locationName = "Japan"
         )
-
+        val fourthMockMediaObj = MediaObj(
+            title = "Video 4",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v4, // Example image URI
+            mediaType = "video",
+            long =  48.8561, // Example longitude
+            latitude = 2.3522, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val fifthMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v5, // Example image URI
+            mediaType = "video",
+            long =  2.3523, // Example longitude
+            latitude = 48.8566, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val sixthMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v6, // Example image URI
+            mediaType = "video",
+            long =  126.9781, // Example longitude
+            latitude = 37.5665, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val seventhMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v7, // Example image URI
+            mediaType = "video",
+            long =  55.2961, // Example longitude
+            latitude = 25.2769, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val eighthMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v8, // Example image URI
+            mediaType = "video",
+            long =  100.5010, // Example longitude
+            latitude = 13.7563, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val ninthMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v9, // Example image URI
+            mediaType = "video",
+            long =  2.3521, // Example longitude
+            latitude = 48.8566, // Example latitude
+            username = "just_a_dude",
+            locationName = "Paris"
+        )
+        val tenthMockMediaObj = MediaObj(
+            title = "Video 5",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v10, // Example image URI
+            mediaType = "video",
+            long =  -79.3837, // Example longitude
+            latitude = 43.6532, // Example latitude
+            username = "just_a_dude",
+            locationName = "Toronto"
+        )
 
         dbHelper.insertMediaObj(firstMockMediaObj)
         dbHelper.insertMediaObj(secondMockMediaObj)
-
         dbHelper.insertMediaObj(thirdMockMediaObj)
+        dbHelper.insertMediaObj(fourthMockMediaObj)
+        dbHelper.insertMediaObj(fifthMockMediaObj)
+        dbHelper.insertMediaObj(sixthMockMediaObj)
+        dbHelper.insertMediaObj(seventhMockMediaObj)
+        dbHelper.insertMediaObj(eighthMockMediaObj)
+        dbHelper.insertMediaObj(ninthMockMediaObj)
+        dbHelper.insertMediaObj(tenthMockMediaObj)
+
 
         // Load media items from the database
         loadMediaItems()
