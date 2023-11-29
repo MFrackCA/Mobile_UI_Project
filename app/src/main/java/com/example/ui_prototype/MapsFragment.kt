@@ -1,9 +1,11 @@
 package com.example.ui_prototype
 
 import MediaObjDBHelper
+import android.content.ContentValues.TAG
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +18,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
     private val dbHelper: MediaObjDBHelper by lazy { MediaObjDBHelper(requireContext()) }
+    private val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,6 +74,51 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 false
             }
         }
+        //fetchVideosAndAddMarkers(googleMap)
+    }
+
+    // fetch videos from firestore firebase
+    
+    private fun fetchVideosAndAddMarkers(googleMap: GoogleMap) {
+        val db = FirebaseFirestore.getInstance()
+        val markerToMediaUriMap = mutableMapOf<Marker, String>()
+
+        db.collection("usermedia")
+            .whereEqualTo("mediaType", "video") // Assuming you want to filter only video types
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val latitude = document.getDouble("latitude")
+                    val longitude = document.getDouble("longitude")
+                    val mediaUri = document.getString("mediaUrl")
+
+                    if (latitude != null && longitude != null && mediaUri != null) {
+                        val position = LatLng(latitude, longitude)
+                        val title = document.getString("mediaName") ?: "Video"
+
+                        val marker = googleMap.addMarker(
+                            MarkerOptions()
+                                .position(position)
+                                .title(title)
+                        )
+
+                        if (marker != null) {
+                            markerToMediaUriMap[marker] = mediaUri
+                        }
+                    }
+                }
+
+                // Set a listener for marker click.
+                googleMap.setOnMarkerClickListener { marker ->
+                    markerToMediaUriMap[marker]?.let { mediaUri ->
+                        playVideo(mediaUri)
+                    }
+                    true // Return true to indicate that we have consumed the event and no further processing is necessary
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
     }
     private fun playVideo(mediaUri: String) {
         val dialogFragment = VideoPlaybackDialogFragment().apply {
