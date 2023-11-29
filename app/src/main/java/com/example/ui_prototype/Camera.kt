@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -78,6 +79,7 @@ class Camera : Fragment() {
             }
         }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = FragmentCameraBinding.inflate(layoutInflater)
@@ -124,19 +126,24 @@ class Camera : Fragment() {
 
 
 
-    fun showUseMediaPrompt(mediaUri: Uri, onPositive: (Unit) -> Unit, onNegative: (Unit) -> Unit) {
+    fun showUseMediaPrompt(mediaUri: Uri, onPositive: (String) -> Unit, onNegative: (Unit) -> Unit) {
         // Determine the media type (image or video) based on the Uri
         // ... determine if the Uri is for an image, e.g., by checking the MIME type
+
+        // Inflate the custom layout
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_media_preview, null)
+        val imageView = dialogView.findViewById<ImageView>(R.id.image_preview)
+        val videoView = dialogView.findViewById<VideoView>(R.id.video_preview)
+        val descriptionEditText = dialogView.findViewById<EditText>(R.id.media_description)
+
+
         val isImage = mediaUri.let {
             requireContext().contentResolver.getType(it)!!.contains("image")
         }
 
         Log.d(TAG, "showUseMediaPrompt: isImage = $isImage")
 
-        // Inflate the custom layout
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_media_preview, null)
-        val imageView = dialogView.findViewById<ImageView>(R.id.image_preview)
-        val videoView = dialogView.findViewById<VideoView>(R.id.video_preview)
+
 
         val mediaController: android.widget.MediaController = android.widget.MediaController(requireContext())
         mediaController.setAnchorView(videoView)
@@ -163,9 +170,9 @@ class Camera : Fragment() {
         val alertDialog = AlertDialog.Builder(requireContext()).apply {
             setTitle("Preview")
             setView(dialogView)
-            setPositiveButton("Use this") { dialog, which ->
-                // User wants to use the media
-                onPositive(Unit)
+            setPositiveButton("Use this") { _, _ ->
+                val description = descriptionEditText.text.toString()
+                onPositive(description) // Pass the description to the callback
             }
             setNegativeButton("Retake") { dialog, which ->
                 // User wants to retake the media
@@ -264,7 +271,7 @@ class Camera : Fragment() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    showUseMediaPrompt(output.savedUri!!, {
+                    showUseMediaPrompt(output.savedUri!!, { description ->
                         firebaseAuth?.currentUser?.let {
                             val storageRef = Firebase.storage.reference
 
@@ -290,7 +297,8 @@ class Camera : Fragment() {
                                         "mediaType" to "image",
                                         "mediaUrl" to uri.toString(),
                                         "mediaName" to output.savedUri?.lastPathSegment,
-                                        "mediaDate" to System.currentTimeMillis()
+                                        "mediaDate" to System.currentTimeMillis(),
+                                        "description" to description
                                     )
                                     db.collection("usermedia")
                                         .add(userMedia)
@@ -384,7 +392,7 @@ class Camera : Fragment() {
                     }
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            showUseMediaPrompt(recordEvent.outputResults.outputUri, {
+                            showUseMediaPrompt(recordEvent.outputResults.outputUri, {description ->
                                 firebaseAuth?.currentUser?.let {
                                     val storageRef = Firebase.storage.reference
 
@@ -409,7 +417,8 @@ class Camera : Fragment() {
                                                 "mediaType" to "video",
                                                 "mediaUrl" to uri.toString(),
                                                 "mediaName" to recordEvent.outputResults.outputUri.lastPathSegment,
-                                                "mediaDate" to System.currentTimeMillis()
+                                                "mediaDate" to System.currentTimeMillis(),
+                                                "description" to description
                                             )
                                             db.collection("usermedia")
                                                 .add(userMedia)
