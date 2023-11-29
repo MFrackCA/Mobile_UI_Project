@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -176,26 +178,46 @@ class Camera : Fragment() {
         }
 
         // Create the AlertDialog
-        val alertDialog = AlertDialog.Builder(requireContext()).apply {
-            setTitle("Preview")
-            setView(dialogView)
-            setPositiveButton("Use this") { _, _ ->
-                val description = descriptionEditText.text.toString()
-                onPositive(description) // Pass the description to the callback
-            }
-            setNegativeButton("Retake") { dialog, which ->
-                // User wants to retake the media
-                onNegative(Unit)
-            }
-            setOnDismissListener {
-                // Stop video playback when the dialog is dismissed
-                if (!isImage) {
-                    videoView.stopPlayback()
-                }
-            }
-        }.create()
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Preview")
+            .setView(dialogView)
+            .create()
 
-        // Show the AlertDialog
+        // Find the buttons in the custom layout
+        val buttonUseThis = dialogView.findViewById<Button>(R.id.button_use_this)
+        val buttonRetake = dialogView.findViewById<Button>(R.id.button_retake)
+
+        // Set the click listener for the "Use this" button
+        buttonUseThis.setOnClickListener {
+            // Get the description from the EditText
+            val description = descriptionEditText.text.toString()
+            // Trigger the onPositive callback with the description
+            onPositive(description)
+            // Dismiss the dialog
+            alertDialog.dismiss()
+        }
+
+        // Set the click listener for the "Retake" button
+        buttonRetake.setOnClickListener {
+            // Trigger the onNegative callback
+            onNegative(Unit)
+            // Dismiss the dialog
+            alertDialog.dismiss()
+        }
+
+
+        // You might need to adjust the dialog's window parameters to show rounded corners and borders
+        alertDialog.window?.let { window ->
+            val layoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(window.attributes)
+                // You can adjust width and height here if necessary
+            }
+            window.attributes = layoutParams
+            // This line is needed to round the corners in the dialog
+            window.setBackgroundDrawableResource(R.drawable.rounded_frame)
+        }
+
+// Show the AlertDialog
         alertDialog.show()
     }
 

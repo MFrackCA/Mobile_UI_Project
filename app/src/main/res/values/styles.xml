@@ -12,4 +12,14 @@
     <style name="BottomNavigationActiveIndicator" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemActiveIndicatorStyle">@drawable/active_tab_indicator</item>
     </style>
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Customize the background, padding, etc. -->
+        <item name="android:windowBackground">@drawable/rounded_frame</item>
+        <!-- Set the text color for the buttons -->
+        <item name="android:textColor">@color/custom_button_text_color</item>
+        <!-- Adjust other style properties as needed -->
+    </style>
+    <style name="AlertDialogButtonTextColor">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 </resources>
