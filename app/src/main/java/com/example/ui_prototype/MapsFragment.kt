@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
@@ -45,48 +46,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 //    }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // Dummy MediaObj
-
-
-
         val maplist = dbHelper.getAllLocations()
-
-        val dummyMediaObj = object {
-            val title = "Dog Video"
-            val profileImageResId = R.drawable.default_profile_picture // Your default image resource
-            val description = "Sample video of a dog"
-            val mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.dog // Your raw resource
-            val mediaType = "video"
-            val latitude = 43.6532 // Dummy latitude, e.g., Toronto
-            val longitude = -79.3832 // Dummy longitude
-        }
-
-        // Add marker for the dummy object
-        /*val markerPosition = LatLng(dummyMediaObj.latitude, dummyMediaObj.longitude)
-        googleMap.addMarker(MarkerOptions().position(markerPosition).title(dummyMediaObj.title))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, 10f))*/
-
         if (maplist != null) {
+            val markerToMediaObjMap = mutableMapOf<Marker, MediaObj>()
+
             for (mediaObj in maplist) {
                 val markerPosition = mediaObj.long?.let { mediaObj.latitude?.let { it1 -> LatLng(it1, it) } }
-                markerPosition?.let { MarkerOptions().position(it).title(mediaObj.title) }
+                val marker = markerPosition?.let { MarkerOptions().position(it).title(mediaObj.title) }
                     ?.let { googleMap.addMarker(it) }
                 markerPosition?.let { CameraUpdateFactory.newLatLngZoom(it, 10f) }
                     ?.let { googleMap.moveCamera(it) }
 
-
-                googleMap.setOnMarkerClickListener { marker ->
-                    if (marker.position == markerPosition) {
-                        mediaObj.mediaUri?.let { playVideo(it) }
-                    }
-                    false
+                if (marker != null) {
+                    markerToMediaObjMap[marker] = mediaObj
                 }
+            }
 
+            googleMap.setOnMarkerClickListener { marker ->
+                val mediaObj = markerToMediaObjMap[marker]
+                mediaObj?.mediaUri?.let { playVideo(it) }
+                false
             }
         }
-
-
-
     }
 
     private fun playVideo(mediaUri: String) {
@@ -95,6 +76,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 putString("mediaUri", mediaUri)
             }
         }
-        dialogFragment.show(parentFragmentManager, "VideoPlayback")
+        dialogFragment.show(requireFragmentManager(), "VideoPlayback")
     }
 }
