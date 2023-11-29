@@ -7,75 +7,100 @@
     android:background="@color/white"
     tools:context=".Profile">
 
-    <androidx.core.widget.NestedScrollView
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+
+    <LinearLayout
+
+        android:id="@+id/profile_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-        <LinearLayout
-            android:id="@+id/profile_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="2dp"
+
+                android:src="@drawable/default_profile_picture"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="2dp"
+
+                app:elevation="8dp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginEnd="20dp"
-                    android:elevation="2dp"
-
-                    android:src="@drawable/default_profile_picture"
-                    app:civ_border_color="@color/black"
-                    app:civ_border_width="2dp"
-
-                    app:elevation="8dp" />
-
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/profile_banner_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical">
+                    android:layout_height="150dp"
+                    android:background="@color/off_white"
+                    android:contentDescription="@string/image_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_banner_foreground"
+                    app:layout_collapseMode="parallax" />
 
-                    <ImageView
-                        android:id="@+id/profile_banner_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:background="@color/off_white"
-                        android:contentDescription="@string/image_description"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_banner_foreground"
-                        app:layout_collapseMode="parallax" />
-
-                    <include android:id="@+id/profile_template"
-                        layout="@layout/profile_template" />
+                <include
+                    android:id="@+id/profile_template"
+                    layout="@layout/profile_template" />
 
 
-                </LinearLayout>
+            </LinearLayout>
 
-            </RelativeLayout>
+        </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/image_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+        <!--            <androidx.recyclerview.widget.RecyclerView-->
+        <!--                android:id="@+id/image_container"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
 
-                >
-
-
-            </androidx.recyclerview.widget.RecyclerView>
+        <!--                >-->
 
 
-        </LinearLayout>
+        <!--            </androidx.recyclerview.widget.RecyclerView>-->
 
 
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+<!--    <include-->
+<!--        android:id="@+id/my_gridview"-->
+<!--        layout="@layout/my_gridview"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/profile_container"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        />-->
+
+    <GridView
+        app:layout_constraintTop_toBottomOf="@id/profile_container"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/myGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        android:scrollbars="horizontal"
+        android:padding="2dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
