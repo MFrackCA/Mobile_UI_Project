@@ -1,8 +1,10 @@
+import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
 import com.example.ui_prototype.MediaObj
+
 
 class MediaObjDBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -42,6 +44,8 @@ class MediaObjDBHelper(context: Context) :
         """.trimIndent()
 
         db.execSQL(createTableSQL)
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -65,4 +69,32 @@ class MediaObjDBHelper(context: Context) :
         db.insert(TABLE_MEDIA_OBJ, null, values)
         db.close()
     }
+
+
+    fun getAllLocations(): List<MediaObj>? {
+        val mediaObjList: MutableList<MediaObj> = ArrayList<MediaObj>()
+        val db = this.readableDatabase
+        val selectQuery = "SELECT  * FROM $TABLE_MEDIA_OBJ"
+        val cursor: Cursor = db.rawQuery(selectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val media = MediaObj(
+                    title = cursor.getString(1),
+                    profileImageResId = cursor.getInt(2),
+                    description = cursor.getString(3),
+                    mediaUri = cursor.getString(4),
+                    mediaType = cursor.getString(5),
+                    long = cursor.getDouble(6),
+                    latitude = cursor.getDouble(7),
+                    username = cursor.getString(8),
+                    locationName = cursor.getString(9)
+                )
+                mediaObjList.add(media)
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return mediaObjList
+    }
+
 }

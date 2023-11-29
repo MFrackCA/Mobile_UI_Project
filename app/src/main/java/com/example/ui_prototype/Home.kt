@@ -41,14 +41,42 @@ class Home : Fragment() {
             title = "Honeybee",
             profileImageResId = R.drawable.honeybee,
             description = "Description for Honeybee",
-            mediaUri = "android.resource://com.example.ui_prototype/drawable/honeybee", // Example image URI
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v3, // Example image URI
             mediaType = "image",
             long = 0.0, // Example longitude
             latitude = 0.0, // Example latitude
             username = "example_user",
             locationName = "Example Location"
         )
+
+        val secondMockMediaObj = MediaObj(
+            title = "Video 2",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "really cool stuff",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v2, // Example image URI
+            mediaType = "video",
+            long = 18.2529, // Example longitude
+            latitude = 13.2048, // Example latitude
+            username = "idk",
+            locationName = "Unknown Location"
+        )
+        val thirdMockMediaObj = MediaObj(
+            title = "Video 1",
+            profileImageResId = R.drawable.default_profile_picture,
+            description = "Pretty cool video",
+            mediaUri = "android.resource://${requireContext().packageName}/" + R.raw.v1, // Example image URI
+            mediaType = "video",
+            long = 138.2529, // Example longitude
+            latitude = 36.2048, // Example latitude
+            username = "just_a_dude",
+            locationName = "Japan"
+        )
+
+
         dbHelper.insertMediaObj(firstMockMediaObj)
+        dbHelper.insertMediaObj(secondMockMediaObj)
+
+        dbHelper.insertMediaObj(thirdMockMediaObj)
 
         // Load media items from the database
         loadMediaItems()
