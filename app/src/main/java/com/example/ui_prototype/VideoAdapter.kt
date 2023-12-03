@@ -15,6 +15,8 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
     inner class ViewHolder(private val binding: VideoTemplateBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
+        // On click listener to restart video when user presses replay
         init {
             binding.replayButton.setOnClickListener {
                 binding.videoView.start() // Restart the video
@@ -29,12 +31,15 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
 
             when (mediaItem.mediaType) {
                 "video" -> {
+                    // Set Video view visible and image off
                     binding.videoView.visibility = View.VISIBLE
                     binding.imageView.visibility = View.GONE
-                    binding.replayButton.visibility = View.GONE // Hide replay button initially
+
+                    // hide replay button
+                    binding.replayButton.visibility = View.GONE
                     val videoUri = Uri.parse(mediaItem.mediaUri)
                     binding.videoView.setVideoURI(videoUri)
-
+                    // start video
                     binding.videoView.setOnPreparedListener { mp ->
                         mp.start()
 
@@ -51,6 +56,7 @@ class VideoAdapter(var mediaItems: List<MediaObj>) :
                 }
 
                 "image" -> {
+                    // Set Image visible and video view off
                     binding.imageView.visibility = View.VISIBLE
                     binding.videoView.visibility = View.GONE
                     Glide.with(binding.imageView.context).load(mediaItem.mediaUri)

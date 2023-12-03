@@ -15,6 +15,9 @@ import com.google.firebase.ktx.Firebase
 
 class Home : Fragment() {
 
+
+    // Initialize components database firestore and sqlite
+    // Initialize VideoAdapter and recyclerview
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: VideoAdapter
     private val db = Firebase.firestore
@@ -45,7 +48,7 @@ class Home : Fragment() {
 
     private fun loadMediaItems() {
         if (isDevelopmentMode) {
-            // Load mock data
+            // Load mock data for testing and debuggign with less overhead
             val mockMediaItems = listOf(
                 MediaObj(
                     title = "Honeybee",
@@ -80,17 +83,14 @@ class Home : Fragment() {
                     username = "example_user",
                     locationName = "Example Location"
                 )
-                // Add more mock items as needed
             )
 
-            // Add more mock items as needed
             adapter.updateMediaItems(mockMediaItems)
         } else {
             // Load All Data from Firestore and SQ Lite
             loadFirestoreData()
             }
     }
-
 
     // get all content from SQ lite database
     private fun loadSQLiteData(mediaItems: MutableList<MediaObj>) {
