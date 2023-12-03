@@ -17,7 +17,7 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInAcitvityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        // instantiate database
         firebaseAuth = FirebaseAuth.getInstance()
         binding.textView.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
@@ -30,12 +30,13 @@ class SignInActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
 
+
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "User name or password are not correct", Toast.LENGTH_SHORT).show()
 
                     }
                 }

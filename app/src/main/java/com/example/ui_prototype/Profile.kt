@@ -86,11 +86,6 @@ class Profile : Fragment() {
                 }
         }
 
-//        recyclerView = view.findViewById(R.id.image_container)
-//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//
-//        adapter = VideoAdapter(emptyList())
-//        recyclerView.adapter = adapter
 
         return view
     }
@@ -110,20 +105,6 @@ class Profile : Fragment() {
         }
     }
 
-//    override fun onPause() {
-//        super.onPause()
-//        if (videoView.isPlaying) {
-//            currentPosition = videoView.currentPosition
-//            videoView.pause()
-//        }
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        videoView.seekTo(currentPosition)
-//        // Optionally start playing automatically
-//        videoView.start()
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

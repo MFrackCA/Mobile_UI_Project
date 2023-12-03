@@ -213,7 +213,7 @@ class Home : Fragment() {
             val mediaItems = mutableListOf<MediaObj>() // Create a list to collect media objects
 
             db.collection("usermedia")
-                .limit(2) // Fetch a limited number of documents
+                .limit(3) // Fetch a limited number of documents
                 .get()
                 .addOnSuccessListener { documents ->
                     val expectedResponses = documents.size()
@@ -261,14 +261,14 @@ class Home : Fragment() {
 
                                 // If all responses are received, update the adapter
                                 if (receivedResponses == expectedResponses) {
-                                    adapter.updateMediaItems(mediaItems) // Update the adapter
+                                    adapter.updateMediaItems(mediaItems)
                                 }
                             }
                             .addOnFailureListener { e ->
                                 Log.e(TAG, "Error getting user data", e)
                                 receivedResponses++
                                 if (receivedResponses == expectedResponses) {
-                                    adapter.updateMediaItems(mediaItems) // Update the adapter
+                                    adapter.updateMediaItems(mediaItems)
                                 }
                             }
                     }

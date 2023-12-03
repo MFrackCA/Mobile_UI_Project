@@ -29,15 +29,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Set the Toolbar as the ActionBar
-        val toolbar: Toolbar = findViewById(R.id.toolbar) // Replace with your Toolbar ID
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
+        // Logout button
         val imageButton = ImageButton(this)
-        imageButton.setImageResource(R.drawable.baseline_logout_24) // Set your icon here
+        imageButton.setImageResource(R.drawable.baseline_logout_24)
         imageButton.setBackgroundResource(R.color.blue_main)
         imageButton.setPadding(0, 0, 50, 0)
 
+
+        // Sign out of app
         imageButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut() // Sign out from Firebase
             val signInIntent = Intent(this, SignInActivity::class.java)
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Define appBarConfiguration with top-level destinations
+        // Define appBarConfiguration
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.home,
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    // Override onSupportNavigateUp for proper navigation support with the ActionBar
+    // Navigation support in top app bar
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
