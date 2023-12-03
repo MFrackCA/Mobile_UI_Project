@@ -71,7 +71,7 @@ class MediaObjDBHelper(context: Context) :
     }
 
 
-    fun getAllLocations(): List<MediaObj>? {
+    fun getAllMediaObj(): List<MediaObj>? {
         val mediaObjList: MutableList<MediaObj> = ArrayList<MediaObj>()
         val db = this.readableDatabase
         val selectQuery = "SELECT  * FROM $TABLE_MEDIA_OBJ"

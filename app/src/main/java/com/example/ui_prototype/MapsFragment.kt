@@ -57,7 +57,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     // local database grab content
     private fun addLocalDatabaseMarkers(googleMap: GoogleMap) {
         val dbHelper = MediaObjDBHelper(requireContext())
-        val maplist = dbHelper.getAllLocations()
+        val maplist = dbHelper.getAllMediaObj()
         maplist?.forEach { mediaObj ->
             mediaObj.long?.let { longitude ->
                 mediaObj.latitude?.let { latitude ->
