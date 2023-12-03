@@ -15,6 +15,7 @@ import androidx.compose.material3.Snackbar
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 import com.example.ui_prototype.databinding.FragmentProfileBinding
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,6 @@ class Profile : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
     private lateinit var adapter: VideoAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var myGridView: GridView
     private lateinit var gridAdapter: GridVAdapter
 
@@ -72,16 +72,17 @@ class Profile : Fragment() {
 
                     myGridView.adapter = gridAdapter
 
-                    myGridView.onItemClickListener = AdapterView.OnItemClickListener { parent, gview, position, id ->
+                    myGridView.onItemClickListener =
+                        AdapterView.OnItemClickListener { parent, gview, position, id ->
 
-                        // get videoView from gview
-                        val videoView = gview.findViewById<VideoView>(R.id.video_preview)
-                        val imageView = gview.findViewById<ImageView>(R.id.image_preview)
+                            // get videoView from gview
+                            val videoView = gview.findViewById<VideoView>(R.id.video_preview)
+                            val imageView = gview.findViewById<ImageView>(R.id.image_preview)
 
-                        if (mediaList[position].mediaType == "video") {
-                            videoView.start()
+                            if (mediaList[position].mediaType == "video") {
+                                videoView.start()
+                            }
                         }
-                    }
                 }
         }
 
@@ -137,7 +138,7 @@ class Profile : Fragment() {
                         val username = document.getString("username") ?: "No Username"
                         var name = document.getString("firstname") ?: "GeoPic User"
                         val bio = document.getString("bio") ?: ""
-
+                        val profileImage = document.getString("photo") ?: ""
                         // Set Profile Fields
                         if (name.isEmpty()) {
                             name = "GeoPic User"
@@ -145,6 +146,13 @@ class Profile : Fragment() {
                         binding.profileTemplate.profileName.text = name
                         binding.profileTemplate.userName.text = "@$username"
                         binding.profileTemplate.profileDescription.text = bio
+                        profileImage?.let {
+                            Glide.with(requireContext())
+                                .load(it)
+                                .placeholder(R.drawable.default_profile_picture) // Add a placeholder if needed
+                                .error(R.drawable.default_profile_picture) // Add an error placeholder if needed
+                                .into(binding.profileImage)
+                        }
 
                     }
                 }
