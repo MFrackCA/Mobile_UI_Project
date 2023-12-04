@@ -23,7 +23,7 @@ class SignInActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
-
+        // Pass data when sign in is pressed
         binding.button.setOnClickListener {
             val email = binding.email.text.toString()
             val pass = binding.pass.text.toString()

@@ -40,7 +40,6 @@
             android:gravity="center"
             android:layout_marginTop="16dp">
 
-            <!-- "Retake" button on the left, red with white text -->
             <Button
                 android:id="@+id/button_retake"
                 android:layout_width="wrap_content"
@@ -51,7 +50,6 @@
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="16dp"/>
 
-            <!-- "Use this" button on the right, green with white text -->
             <Button
                 android:id="@+id/button_use_this"
                 android:layout_width="wrap_content"

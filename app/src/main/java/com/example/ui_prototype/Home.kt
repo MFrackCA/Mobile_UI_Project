@@ -108,7 +108,8 @@ class Home : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
-                    loadSQLiteData(mediaItems) // Call SQLite data loading if Firestore data is empty
+                    // Call SQLite data loading if Firestore data is empty
+                    loadSQLiteData(mediaItems)
                     return@addOnSuccessListener
                 }
 
