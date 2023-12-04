@@ -1,6 +1,6 @@
 package com.example.ui_prototype
 
-// Class for media objects form firebase images/videos
+// Class for media objects for images/videos
 data class MediaObj(
     val title: String?,
     val profileImageResId: Int?,

@@ -6,13 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Profile">
-
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-
+    
     <LinearLayout
 
         android:id="@+id/profile_container"
@@ -66,28 +60,10 @@
 
         </RelativeLayout>
 
-        <!--            <androidx.recyclerview.widget.RecyclerView-->
-        <!--                android:id="@+id/image_container"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-
-        <!--                >-->
-
-
-        <!--            </androidx.recyclerview.widget.RecyclerView>-->
 
 
     </LinearLayout>
 
-
-<!--    </androidx.core.widget.NestedScrollView>-->
-
-<!--    <include-->
-<!--        android:id="@+id/my_gridview"-->
-<!--        layout="@layout/my_gridview"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/profile_container"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        />-->
 
     <GridView
         app:layout_constraintTop_toBottomOf="@id/profile_container"

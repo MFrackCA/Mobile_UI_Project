@@ -45,6 +45,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         addLocalDatabaseMarkers(googleMap)
         addFireStoreMarkers(googleMap)
 
+
+        // On click listener for map markers to play video
         googleMap.setOnMarkerClickListener { marker ->
             val mediaUri = marker.tag as? String
             mediaUri?.let {
